@@ -12,7 +12,7 @@ import (
 func main() {
 
 	router := mux.NewRouter()
-	router.HandleFunc("/alert", alert.AlertToTelegram).Methods("POST")
+	router.HandleFunc("/alert", alert.ToTelegram).Methods("POST")
 
 	log.Fatal(http.ListenAndServe("0.0.0.0:8686", router))
 }
