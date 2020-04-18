@@ -9,6 +9,11 @@ import (
 	botapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
+const (
+	botToken = "xxbotTokenxx"
+	chatID   = 666777666
+)
+
 type alertmanagerAlert struct {
 	Receiver string `json:"receiver"`
 	Status   string `json:"status"`
@@ -59,7 +64,7 @@ func ToTelegram(w http.ResponseWriter, r *http.Request) {
 
 	var alerts alertmanagerAlert
 
-	bot, err := botapi.NewBotAPI("botToken")
+	bot, err := botapi.NewBotAPI(botToken)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -87,7 +92,7 @@ func ToTelegram(w http.ResponseWriter, r *http.Request) {
 			telegramMsg += "Started: " + alert.StartsAt.Format("2006-01-02 15:04:05")
 		}
 
-		msg := botapi.NewMessage(-xchatIDx, telegramMsg)
+		msg := botapi.NewMessage(-chatID, telegramMsg)
 		bot.Send(msg)
 	}
 
