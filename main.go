@@ -14,5 +14,5 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/alert", alert.ToTelegram).Methods("POST")
 
-	log.Fatal(http.ListenAndServe("0.0.0.0:8686", router))
+	log.Fatal(http.ListenAndServe("0.0.0.0:9229", router))
 }
