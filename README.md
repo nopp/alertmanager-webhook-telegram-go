@@ -12,7 +12,7 @@ Running on docker
     cd alertmanager-webhook-telegram-go/docker/
     docker build -t awt-go:0.1 .
 
-    docker run -d --name telegram-bot \
+    docker run -d --name awt-go-bot \
     	-e "bottoken=telegramBotToken" \
     	-e "chatid=telegramChatID" \
     	-p 9229:9229 awt-go:0.1
