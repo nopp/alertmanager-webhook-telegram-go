@@ -6,6 +6,15 @@ Python Version (https://github.com/nopp/alertmanager-webhook-telegram-python)
 
 * go get -d .
 
+Alertmanager configuration example
+==================================
+
+	receivers:
+	- name: 'telegram-webhook'
+	  webhook_configs:
+	  - url: http://ipGoAlert:9229/alert
+	    send_resolved: true
+
 Running on docker
 =================
     git clone https://github.com/nopp/alertmanager-webhook-telegram-go.git
