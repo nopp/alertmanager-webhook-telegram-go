@@ -2,6 +2,8 @@
 
 Python Version (https://github.com/nopp/alertmanager-webhook-telegram-python) 
 
+Go version 1.13.9
+
 ## INSTALL
 
 * go get -d .
