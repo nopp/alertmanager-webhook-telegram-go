@@ -1,10 +1,9 @@
 package main
 
 import (
+	"alert/alert"
 	"log"
 	"net/http"
-
-	"./alert"
 
 	"github.com/gorilla/mux"
 )
