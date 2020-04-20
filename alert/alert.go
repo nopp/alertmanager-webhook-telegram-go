@@ -52,13 +52,6 @@ type alertmanagerAlert struct {
 	GroupKey    string `json:"groupKey"`
 }
 
-func message(w http.ResponseWriter, message string) {
-	log.Println(message)
-	json.NewEncoder(w).Encode(map[string]string{
-		"message": message,
-	})
-}
-
 // ToTelegram function responsible to send msg to telegram
 func ToTelegram(w http.ResponseWriter, r *http.Request) {
 
@@ -72,7 +65,6 @@ func ToTelegram(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&alerts)
 
 	for _, alert := range alerts.Alerts {
-		log.Println(alert.Status)
 		telegramMsg := "Status: " + alerts.Status + "\n"
 		if alert.Labels.Name != "" {
 			telegramMsg += "Instance: " + alert.Labels.Instance + "(" + alert.Labels.Name + ")\n"
