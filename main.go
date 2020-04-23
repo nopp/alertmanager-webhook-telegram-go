@@ -1,7 +1,7 @@
 package main
 
 import (
-	"alert/alert"
+	"alertmanager-webhook-telegram-go/alert"
 	"log"
 	"net/http"
 
