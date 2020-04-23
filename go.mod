@@ -1,4 +1,4 @@
-module alert
+module alertmanager-webhook-telegram-go
 
 go 1.13
 
