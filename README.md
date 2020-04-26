@@ -1,5 +1,7 @@
 # Alertmanager webhook for Telegram (GO Version)
 
+<img src="https://github.com/nopp/alertmanager-webhook-telegram-go/workflows/Go/badge.svg"/>
+
 Python Version (https://github.com/nopp/alertmanager-webhook-telegram-python) 
 
 Go version 1.13.9
