@@ -10,8 +10,9 @@ import (
 )
 
 const (
-	botToken = "xxbotTokenxx"
-	chatID   = 666777666
+	botToken       = "xxbotTokenxx"
+	chatID         = 666777666
+	timeDateFormat = "2006-01-02 15:04:05"
 )
 
 type alertmanagerAlert struct {
@@ -79,9 +80,9 @@ func ToTelegram(w http.ResponseWriter, r *http.Request) {
 			telegramMsg += "Description: " + alert.Annotations.Description + "\n"
 		}
 		if alert.Status == "resolved" {
-			telegramMsg += "Resolved: " + alert.EndsAt.Format("2006-01-02 15:04:05")
+			telegramMsg += "Resolved: " + alert.EndsAt.Format(timeDateFormat)
 		} else if alert.Status == "firing" {
-			telegramMsg += "Started: " + alert.StartsAt.Format("2006-01-02 15:04:05")
+			telegramMsg += "Started: " + alert.StartsAt.Format(timeDateFormat)
 		}
 
 		msg := botapi.NewMessage(-chatID, telegramMsg)
