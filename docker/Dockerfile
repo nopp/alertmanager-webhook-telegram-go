@@ -1,17 +1,13 @@
-FROM golang:1.13.9 AS builder
-ENV awt_version 1.0
-RUN curl -LO https://github.com/nopp/alertmanager-webhook-telegram-go/archive/${awt_version}.tar.gz \
-    && tar zxf ${awt_version}.tar.gz
-WORKDIR alertmanager-webhook-telegram-go-${awt_version}
-RUN go get -d . \
+FROM golang:1.13.10 AS builder
+
+COPY . .
+
+RUN unset GOPATH \
     && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
-FROM golang:1.13.9
+FROM golang:1.13.10
 
 LABEL maintainer="Carlos Augusto Malucelli <camalucelli@gmail.com>"
-LABEL version="1.0"
 
-ENV awt_version 1.0
-
-COPY --from=builder /go/alertmanager-webhook-telegram-go-${awt_version}/main .
+COPY --from=builder /go/main .
 ENTRYPOINT ["./run.sh"]
