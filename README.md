@@ -1,8 +1,4 @@
-# alertmanager-webhook-telegram-go
-
-![Go](https://github.com/nopp/alertmanager-webhook-telegram-go/workflows/Go/badge.svg)
-![Docker Image CI](https://github.com/nopp/alertmanager-webhook-telegram-go/workflows/Docker%20Image%20CI/badge.svg)
-![Code scanning - action](https://github.com/nopp/alertmanager-webhook-telegram-go/workflows/Code%20scanning%20-%20action/badge.svg)
+# Alertmanager webhook for Telegram (GO Version)
 
 Alertmanager webhook receiver that forwards alerts to a Telegram chat.
 
