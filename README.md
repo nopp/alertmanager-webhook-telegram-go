@@ -1,33 +1,78 @@
-# Alertmanager webhook for Telegram (GO Version)
+# alertmanager-webhook-telegram-go
 
 ![Go](https://github.com/nopp/alertmanager-webhook-telegram-go/workflows/Go/badge.svg)
 ![Docker Image CI](https://github.com/nopp/alertmanager-webhook-telegram-go/workflows/Docker%20Image%20CI/badge.svg)
 ![Code scanning - action](https://github.com/nopp/alertmanager-webhook-telegram-go/workflows/Code%20scanning%20-%20action/badge.svg)
 
-Python Version (https://github.com/nopp/alertmanager-webhook-telegram-python) 
+Alertmanager webhook receiver that forwards alerts to a Telegram chat.
 
-Go version 1.13.9
+Python version: https://github.com/nopp/alertmanager-webhook-telegram-python
 
-## INSTALL
+## Requirements
 
-* go get -d .
+- Go 1.22+
+- Telegram bot token ([BotFather](https://t.me/BotFather))
+- Telegram chat ID (negative for groups, e.g. `-123456789`)
 
-Alertmanager configuration example
-==================================
+## Configuration
 
-	receivers:
-	- name: 'telegram-webhook'
-	  webhook_configs:
-	  - url: http://ipGoAlert:9229/alert
-	    send_resolved: true
+All configuration is via environment variables — no hardcoded values.
 
-Running on docker
-=================
-    git clone https://github.com/nopp/alertmanager-webhook-telegram-go.git
-    cd alertmanager-webhook-telegram-go/docker/
-    docker build -t awt-go:0.1 .
+| Variable      | Required | Default          | Description                  |
+|---------------|----------|------------------|------------------------------|
+| `BOT_TOKEN`   | ✅       | —                | Telegram bot token           |
+| `CHAT_ID`     | ✅       | —                | Telegram chat ID (numeric)   |
+| `LISTEN_ADDR` | ❌       | `0.0.0.0:9229`   | Address and port to bind     |
 
-    docker run -d --name awt-go-bot \
-    	-e "bottoken=telegramBotToken" \
-    	-e "chatid=telegramChatID" \
-    	-p 9229:9229 awt-go:0.1
+## Running
+
+### Docker (recommended)
+
+```bash
+docker build -f docker/Dockerfile -t alertmanager-webhook-telegram-go .
+
+docker run -d \
+  -e BOT_TOKEN=your_bot_token \
+  -e CHAT_ID=-123456789 \
+  -p 9229:9229 \
+  alertmanager-webhook-telegram-go
+```
+
+### From source
+
+```bash
+go build -o webhook ./cmd/webhook
+BOT_TOKEN=xxx CHAT_ID=-123456789 ./webhook
+```
+
+### Tests
+
+```bash
+go test ./...
+```
+
+## Alertmanager configuration
+
+```yaml
+receivers:
+  - name: telegram-webhook
+    webhook_configs:
+      - url: http://<host>:9229/alert
+        send_resolved: true
+```
+
+## Project structure
+
+```
+cmd/webhook/          entry point
+internal/config/      env var loading
+internal/handler/     HTTP handler + Alertmanager types
+internal/telegram/    Telegram bot client
+docker/               Dockerfile
+```
+
+## Endpoint
+
+| Method | Path     | Description                        |
+|--------|----------|------------------------------------|
+| POST   | `/alert` | Receives Alertmanager webhook payload |

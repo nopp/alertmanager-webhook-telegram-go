@@ -1,9 +1,14 @@
-FROM golang:1.13.10 AS builder
-COPY . .
-RUN unset GOPATH \
-    && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+FROM golang:1.22-alpine AS builder
 
-FROM golang:1.13.10
-LABEL maintainer="Carlos Augusto Malucelli <camalucelli@gmail.com>"
-COPY --from=builder /go/main .
-ENTRYPOINT ["./run.sh"]
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o webhook ./cmd/webhook
+
+FROM gcr.io/distroless/static-debian12
+
+COPY --from=builder /app/webhook /webhook
+
+ENTRYPOINT ["/webhook"]

@@ -1,1 +1,21 @@
-go.sum
+# Build output
+webhook
+main
+
+# Environment / secrets
+.env
+*.env
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test cache / coverage
+*.out
+coverage.html
